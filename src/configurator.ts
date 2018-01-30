@@ -33,7 +33,11 @@ export class Configurator {
     public setURI(uri: string) : this {
 
         this._uri = uri;
-        this.urlToComponents(uri);
+
+        const u = this.urlToComponents(uri);
+        this._host = u.host;
+        this._proto = u.protocol;
+        this._port = u.port;
 
         return this;
 
@@ -143,12 +147,19 @@ export class Configurator {
 
     }
 
-    private urlToComponents(url: string) {
+    protected urlToComponents(url: string) : {
+        protocol: string;
+        host: string;
+        port: number;
+    } {
 
         const u = URL.parse(url);
-        this._proto = u.protocol;
-        this._host = u.hostname;
-        this._port = Number(u.port);
+
+        return {
+            protocol: u.protocol,
+            host: u.hostname,
+            port: Number(u.port)
+        }
 
     }
 
