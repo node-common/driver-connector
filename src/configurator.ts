@@ -2,29 +2,29 @@ import * as URL from "url";
 
 export class Configurator {
 
-    private _clientId: string = null;
+    protected _clientId: string = null;
 
-    private _clientKey: string = null;
+    protected _clientKey: string = null;
 
-    private _proto: string = null;
+    protected _proto: string = null;
 
-    private _host: string = null;
+    protected _host: string = null;
 
-    private _port: number = null;
+    protected _port: number = null;
 
-    private _uri: string = null;
+    protected _uri: string = null;
 
-    private _version: number = 1;
+    protected _version: number = 1;
 
-    private _versionPrefix: string = "/api/v";
+    protected _versionPrefix: string = "/api/v";
 
-    private _logging: boolean = false;
+    protected _logging: boolean = false;
 
-    private _checkPath: string = "/oauth/check";
+    protected _checkPath: string = "/oauth/check";
 
-    private _issuePath: string = "/oauth/token";
+    protected _issuePath: string = "/oauth/token";
 
-    private _authorizePath: string = "/oauth/authorize";
+    protected _authorizePath: string = "/oauth/authorize";
 
     constructor() {
 
