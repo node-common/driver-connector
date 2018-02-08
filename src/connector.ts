@@ -45,6 +45,17 @@ export class Connector {
     }
 
     /**
+     * Set configuration
+     * ------------------------------------------------------------------
+     * @param {Configurator} conf
+     */
+    public setConfiguration(conf: Configurator) {
+
+        this._conf = conf;
+
+    }
+
+    /**
      * Connector serving GET request
      * ------------------------------------------------------------------
      * @param {string} path
