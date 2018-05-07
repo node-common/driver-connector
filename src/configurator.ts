@@ -26,6 +26,8 @@ export class Configurator {
 
     protected _authorizePath: string = "/oauth/authorize";
 
+    protected _allowInsecure: boolean = false;
+
     constructor() {
 
     }
@@ -70,6 +72,14 @@ export class Configurator {
     public debugLog(flag: boolean) : this {
 
         this._logging = flag;
+
+        return this;
+
+    }
+
+    public setInsecure(flag: boolean) : this {
+
+        this._allowInsecure = flag;
 
         return this;
 
@@ -144,6 +154,12 @@ export class Configurator {
     get authorizePath(): string {
 
         return this._authorizePath;
+
+    }
+
+    get isInsecure(): boolean {
+
+        return this._allowInsecure;
 
     }
 

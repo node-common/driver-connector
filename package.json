@@ -6,7 +6,7 @@
     "url": "https://github.com/node-common/driver-connector"
   },
   "license": "MIT",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": "Anton Repin <ar@xdire.io>",
   "main": "dist/connector.js",
   "types": "dist/connector.d.ts",
@@ -14,13 +14,13 @@
     "ts-exceptions": "^1.0.1"
   },
   "devDependencies": {
-    "typescript": "^2.5.2",
+    "@types/mocha": "^2.2.48",
+    "@types/node": "^10.0.1",
+    "@types/sinon": "^4.3.1",
+    "mocha": "^5.1.1",
+    "sinon": "^4.5.0",
     "ts-node": "^4.1.0",
-    "@types/node": "^9.3.0",
-    "@types/sinon": "^4.1.3",
-    "@types/mocha": "^2.2.47",
-    "mocha": "^5.0.0",
-    "sinon": "^4.2.1"
+    "typescript": "^2.8.3"
   },
   "scripts": {
     "test": "tsc && mocha -r ts-node/register test/**/*.ts",

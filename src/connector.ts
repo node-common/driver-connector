@@ -3,6 +3,7 @@ import * as HTTP from "http";
 import * as HTTPS from "https";
 import {ClientRequest, IncomingMessage, RequestOptions} from "http";
 import {URL} from "url";
+import {TlsOptions} from "tls";
 
 /**
  *  Simple API driver connector with OAUTH2 authorization token
@@ -95,13 +96,17 @@ export class Connector {
                 this.appendTokenInformation(headers);
 
             // Set Request options to form proper type of Request
-            const opt: RequestOptions = {
+            const opt: RequestOptions & TlsOptions = {
                 method: "GET",
                 headers: headers,
                 hostname: this._conf.host,
                 port: this._conf.port,
-                path: this._conf.versionPrefix + path
+                path: this._conf.versionPrefix + path,
             };
+
+            // Set as allow insecure HTTPS connections if configuration says so
+            if(this._conf.isInsecure)
+                opt.rejectUnauthorized = false;
 
             const r = handler.request(opt, (res) => {
 
@@ -202,13 +207,17 @@ export class Connector {
                 this.appendTokenInformation(headers);
 
             // Set Request options to form proper type of Request
-            const opt: RequestOptions = {
+            const opt: RequestOptions & TlsOptions = {
                 method: method,
                 headers: headers,
                 hostname: this._conf.host,
                 port: this._conf.port,
                 path: this._conf.versionPrefix + path
             };
+
+            // Set as allow insecure HTTPS connections if configuration says so
+            if(this._conf.isInsecure)
+                opt.rejectUnauthorized = false;
 
             const r = handler.request(opt, (res) => {
 
