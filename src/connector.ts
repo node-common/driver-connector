@@ -80,15 +80,21 @@ export class Connector {
             let handler: ConnectorHandler = null;
             let cbuffer: string = "";
 
-            // Determine protocol which connector will be using (Configuration level)
-            if(this._conf.proto === "securedHandler")
+            if(this._conf.proto !== null) {
 
+                // Determine protocol which connector will be using (Configuration level)
+                if (this._conf.proto[0] === "h" && this._conf.proto[4] === "s")
+
+                    handler = this.securedHandler;
+
+                else
+
+                    handler = this.handler;
+
+            } else
+
+                // Use SSL handler in any of other situations
                 handler = this.securedHandler;
-
-            else
-
-                handler = this.handler;
-
 
             // If No Auto Authorization flag is not ON then set auto-authorization
             // for all of requests
@@ -190,14 +196,21 @@ export class Connector {
             let handler: ConnectorHandler = null;
             let cbuffer: string = "";
 
-            // Determine protocol which connector will be using (Configuration level)
-            if(this._conf.proto === "securedHandler")
+            if(this._conf.proto !== null) {
 
-                handler = HTTPS;
+                // Determine protocol which connector will be using (Configuration level)
+                if (this._conf.proto[0] === "h" && this._conf.proto[4] === "s")
 
-            else
+                    handler = this.securedHandler;
 
-                handler = HTTP;
+                else
+
+                    handler = this.handler;
+
+            } else
+
+                // Use SSL handler in any of other situations
+                handler = this.securedHandler;
 
             const strBody = this.appendContentInformation(body, headers);
 

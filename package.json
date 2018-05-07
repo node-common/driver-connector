@@ -6,7 +6,7 @@
     "url": "https://github.com/node-common/driver-connector"
   },
   "license": "MIT",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "Anton Repin <ar@xdire.io>",
   "main": "dist/connector.js",
   "types": "dist/connector.d.ts",
