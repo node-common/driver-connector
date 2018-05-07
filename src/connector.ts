@@ -77,24 +77,40 @@ export class Connector {
 
         return new Promise<ConnectionResponse>((resolve, reject) => {
 
+            let log: string[] = [];
+            let debug = this._conf.isDebug;
+
             let handler: ConnectorHandler = null;
             let cbuffer: string = "";
 
             if(this._conf.proto !== null) {
 
                 // Determine protocol which connector will be using (Configuration level)
-                if (this._conf.proto[0] === "h" && this._conf.proto[4] === "s")
+                if (this._conf.proto[0] === "h" && this._conf.proto[4] === "s") {
 
                     handler = this.securedHandler;
 
-                else
+                    if(debug)
+                        log.push("Connect using Secured handler for protocol: " + this._conf.proto);
+                }
+                else {
 
                     handler = this.handler;
 
-            } else
+                    if(debug)
+                        log.push("Connect using common handler for protocol: " + this._conf.proto);
+
+                }
+
+            } else {
 
                 // Use SSL handler in any of other situations
                 handler = this.securedHandler;
+
+                if(debug)
+                    log.push("Connect using Secured handler for undetermined protocol");
+
+            }
 
             // If No Auto Authorization flag is not ON then set auto-authorization
             // for all of requests
@@ -113,6 +129,9 @@ export class Connector {
             // Set as allow insecure HTTPS connections if configuration says so
             if(this._conf.isInsecure)
                 opt.rejectUnauthorized = false;
+
+            if(debug)
+                log.push("Connection options: " + JSON.stringify(opt));
 
             const r = handler.request(opt, (res) => {
 
@@ -133,6 +152,9 @@ export class Connector {
                         originHeaders: opt.headers,
                         originMethod: opt.method
                     };
+
+                    if(debug)
+                        result.debug = log;
 
                     try {
                         result.data = JSON.parse(cbuffer);
@@ -157,6 +179,9 @@ export class Connector {
                     originHeaders: opt.headers,
                     originMethod: opt.method
                 };
+
+                if(debug)
+                    result.debug = log;
 
                 reject(result);
 
@@ -193,24 +218,40 @@ export class Connector {
 
         return new Promise<ConnectionResponse>((resolve, reject) => {
 
+            let log: string[] = [];
+            let debug = this._conf.isDebug;
+
             let handler: ConnectorHandler = null;
             let cbuffer: string = "";
 
             if(this._conf.proto !== null) {
 
                 // Determine protocol which connector will be using (Configuration level)
-                if (this._conf.proto[0] === "h" && this._conf.proto[4] === "s")
+                if (this._conf.proto[0] === "h" && this._conf.proto[4] === "s") {
 
                     handler = this.securedHandler;
 
-                else
+                    if(debug)
+                        log.push("Connect using Secured handler for protocol: " + this._conf.proto);
+                }
+                else {
 
                     handler = this.handler;
 
-            } else
+                    if(debug)
+                        log.push("Connect using common handler for protocol: " + this._conf.proto);
+
+                }
+
+            } else {
 
                 // Use SSL handler in any of other situations
                 handler = this.securedHandler;
+
+                if(debug)
+                    log.push("Connect using Secured handler for undetermined protocol");
+
+            }
 
             const strBody = this.appendContentInformation(body, headers);
 
@@ -232,6 +273,9 @@ export class Connector {
             if(this._conf.isInsecure)
                 opt.rejectUnauthorized = false;
 
+            if(debug)
+                log.push("Connection options: " + JSON.stringify(opt));
+
             const r = handler.request(opt, (res) => {
 
                 res.setEncoding('utf8');
@@ -251,6 +295,9 @@ export class Connector {
                         originHeaders: opt.headers,
                         originMethod: opt.method
                     };
+
+                    if(debug)
+                        result.debug = log;
 
                     try {
                         result.data = JSON.parse(cbuffer);
@@ -275,6 +322,9 @@ export class Connector {
                     originHeaders: opt.headers,
                     originMethod: opt.method
                 };
+
+                if(debug)
+                    result.debug = log;
 
                 reject(result);
 
@@ -389,10 +439,11 @@ export interface ConnectionResponse {
     status?: number;
     message?: string;
     data?: {[key: string] : any} | Array<{[key: string] : any}>;
-    error?: string,
-    originPath: string,
-    originHeaders: {[key: string] : any},
-    originMethod: string
+    error?: string;
+    originPath: string;
+    originHeaders: {[key: string] : any};
+    originMethod: string;
+    debug?: string[]
 }
 
 export interface ConnectorHandler {
