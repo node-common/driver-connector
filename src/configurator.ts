@@ -17,6 +17,10 @@ export class Configurator {
     protected _version: number = 1;
 
     protected _versionPrefix: string = "/api/v";
+    
+    protected _withPrefix: boolean = false;
+    
+    protected _withPrefixNoVersion: boolean = false;
 
     protected _logging: boolean = false;
 
@@ -32,6 +36,27 @@ export class Configurator {
 
     }
 
+    public setPrefixPresence(flag: boolean) : this {
+        
+        this._withPrefix = flag;
+        return this;
+        
+    }
+    
+    public setPrefixNoVersion(flag: boolean) : this {
+        
+        this._withPrefixNoVersion = flag;
+	    return this;
+	    
+    }
+    
+    public setPrefix(pref: string) : this {
+        
+        this._versionPrefix = pref;
+        return this;
+        
+    }
+    
     public setURI(uri: string) : this {
 
         this._uri = uri;
@@ -48,7 +73,6 @@ export class Configurator {
     public setVersion(num: number) : this {
 
         this._version = num;
-
         return this;
 
     }
@@ -56,7 +80,6 @@ export class Configurator {
     public setClientId(client: string) : this {
 
         this._clientId = client;
-
         return this;
 
     }
@@ -64,7 +87,6 @@ export class Configurator {
     public setClientKey(key: string) : this {
 
         this._clientKey = key;
-
         return this;
 
     }
@@ -72,7 +94,6 @@ export class Configurator {
     public debugLog(flag: boolean) : this {
 
         this._logging = flag;
-
         return this;
 
     }
@@ -80,7 +101,6 @@ export class Configurator {
     public setInsecure(flag: boolean) : this {
 
         this._allowInsecure = flag;
-
         return this;
 
     }
@@ -99,7 +119,12 @@ export class Configurator {
 
     get versionPrefix(): string {
 
-        return this._versionPrefix + String(this._version);
+        if(this._withPrefix) {
+            if(this._withPrefixNoVersion)
+	            return this._versionPrefix;
+	        return this._versionPrefix + String(this._version);
+        }
+        else return "";
 
     }
 
